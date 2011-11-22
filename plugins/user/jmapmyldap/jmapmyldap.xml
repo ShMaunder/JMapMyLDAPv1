@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.6" type="plugin" group="user" method="upgrade">
+	<name>plg_user_jmapmyldap</name>
+	<author>Shaun Maunder</author>
+	<creationDate>June 2011</creationDate>
+	<copyright>Copyright (C) 2011 Shaun Maunder. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>shaun@shmanic.com</authorEmail>
+	<authorUrl>www.shmanic.com</authorUrl>
+	<version>1.0.5</version>
+	<description>PLG_USER_JMAPMYLDAP_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="jmapmyldap">jmapmyldap.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_user_jmapmyldap.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_user_jmapmyldap.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="auth_plugin" type="text"
+					default="jmapmyldap"
+					description="PLG_JMAPMYLDAP_FIELD_AUTHPLUGIN_DESC"
+					label="PLG_JMAPMYLDAP_FIELD_AUTHPLUGIN_LABEL"
+				/>
+				<field name="autoregister" type="list"
+					default="1"
+					description="PLG_JMAPMYLDAP_FIELD_REGISTER_DESC"
+					label="PLG_JMAPMYLDAP_FIELD_REGISTER_LABEL"
+				>
+					<option value="0">PLG_JMAPMYLDAP_FIELD_REGISTER_INHERIT_NO</option>
+					<option value="1">PLG_JMAPMYLDAP_FIELD_REGISTER_INHERIT_YES</option>
+					<option value="override0">PLG_JMAPMYLDAP_FIELD_OVERRIDE_NO</option>
+					<option value="override1">PLG_JMAPMYLDAP_FIELD_OVERRIDE_YES</option>
+				</field>
+				<field name="spacer1" type="spacer"
+					hr="true"
+				/>
+				<field name="sync_name" type="radio"
+					default="0"
+					description="PLG_JMAPMYLDAP_FIELD_SYNC_NAME_DESC"
+					label="PLG_JMAPMYLDAP_FIELD_SYNC_NAME_LABEL"
+				>
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+				<field name="sync_email" type="radio"
+					default="0"
+					description="PLG_JMAPMYLDAP_FIELD_SYNC_EMAIL_DESC"
+					label="PLG_JMAPMYLDAP_FIELD_SYNC_EMAIL_LABEL"
+				>
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+			</fieldset>
+			<fieldset name="group_mapping" label="PLG_JMAPMYLDAP_GM_LABEL" description="PLG_JMAPMYLDAP_GM_DESC">
+				<field name="group_map_enabled" type="radio"
+					default="0"
+					description="PLG_JMAPMYLDAP_FIELD_GM_USE_DESC"
+					label="PLG_JMAPMYLDAP_FIELD_GM_USE_LABEL"
+				>
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+				<field name="group_map_addition" type="radio"
+					default="1"
+					description="PLG_JMAPMYLDAP_FIELD_GM_ADD_DESC"
+					label="PLG_JMAPMYLDAP_FIELD_GM_ADD_LABEL"
+				>
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+				<field name="group_map_removal" type="list"
+					default="yesdefault"
+					description="PLG_JMAPMYLDAP_FIELD_GM_REM_DESC"
+					label="PLG_JMAPMYLDAP_FIELD_GM_REM_LABEL"
+				>
+					<option value="yesdefault">PLG_JMAPMYLDAP_FIELD_GM_REM_YESDEFAULT</option>
+					<option value="yes">PLG_JMAPMYLDAP_FIELD_GM_REM_YES</option>
+					<option value="no">PLG_JMAPMYLDAP_FIELD_GM_REM_NO</option>
+				</field>
+				<field name="group_map_unmanage" type="text"
+					default="1;2;8"
+					description="PLG_JMAPMYLDAP_FIELD_GM_UNMAN_DESC"
+					label="PLG_JMAPMYLDAP_FIELD_GM_UNMAN_LABEL"
+				/>
+				<field name="group_map_public" type="text"
+					default="1"
+					description="PLG_JMAPMYLDAP_FIELD_GM_PUBLIC_DESC"
+					label="PLG_JMAPMYLDAP_FIELD_GM_PUBLIC_LABEL"
+				/>
+				<field name="spacer2" type="spacer"
+					hr="true"
+				/>
+				<field name="group_map_list" type="textarea"
+					cols="50"
+					description="PLG_JMAPMYLDAP_FIELD_GM_LIST_DESC"
+					label="PLG_JMAPMYLDAP_FIELD_GM_LIST_LABEL"
+					rows="6"
+					default=""
+				/>
+				<field name="spacer3" type="spacer"
+					hr="true"
+				/>
+				<field name="lookup_type" type="list"
+					default="forward"
+					description="PLG_JMAPMYLDAP_FIELD_GM_LOOKUPTYPE_DESC"
+					label="PLG_JMAPMYLDAP_FIELD_GM_LOOKUPTYPE_LABEL"
+				>
+					<option value="forward">PLG_JMAPMYLDAP_FIELD_GM_LOOKUPTYPE_FORWARD</option>
+					<option value="reverse">PLG_JMAPMYLDAP_FIELD_GM_LOOKUPTYPE_REVERSE</option>
+				</field>
+				<field name="lookup_attribute" type="text"
+					default="groupMembership"
+					description="PLG_JMAPMYLDAP_FIELD_LOOKUP_ATTRIBUTE_DESC"
+					label="PLG_JMAPMYLDAP_FIELD_LOOKUP_ATTRIBUTE_LABEL"
+				/>
+				<field name="lookup_member" type="text"
+					default="dn"
+					description="PLG_JMAPMYLDAP_FIELD_LOOKUP_MEMBER_DESC"
+					label="PLG_JMAPMYLDAP_FIELD_LOOKUP_MEMBER_LABEL"
+				/>
+				<field name="spacer4" type="spacer"
+					hr="true"
+				/>
+				<field name="recursive" type="radio"
+					default="0"
+					description="PLG_JMAPMYLDAP_FIELD_GM_USERECURSIVE_DESC"
+					label="PLG_JMAPMYLDAP_FIELD_GM_USERECURSIVE_LABEL"
+				>
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+				<field name="dn_attribute" type="text"
+					default="distinguishedName"
+					description="PLG_JMAPMYLDAP_FIELD_DN_ATTRIBUTE_DESC"
+					label="PLG_JMAPMYLDAP_FIELD_DN_ATTRIBUTE_LABEL"
+				/>
+				<field name="recursion_depth" type="text"
+					default="0"
+					description="PLG_JMAPMYLDAP_FIELD_RECURSION_DEPTH_DESC"
+					label="PLG_JMAPMYLDAP_FIELD_RECURSION_DEPTH_LABEL"
+				/>
+
+			</fieldset>
+		</fields>
+	</config>
+</extension>

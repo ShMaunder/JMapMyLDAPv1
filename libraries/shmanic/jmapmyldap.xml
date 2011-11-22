@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.6" type="library" method="upgrade">
+	<name>JMapMyLDAP Library</name>
+	<libraryname>shmanic</libraryname>
+	<author>Shaun Maunder</author>
+	<creationDate>June 2011</creationDate>
+	<copyright>Copyright (C) 2011 Shaun Maunder. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>shaun@shmanic.com</authorEmail>
+	<authorUrl>www.shmanic.com</authorUrl>
+	<version>1.0.5</version>
+	<description></description>
+	<files>
+		<file>jmapmyldap.php</file>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.lib_jmapmyldap.ini</language>
+	</languages>
+</extension>
