@@ -3,7 +3,7 @@
  * @author      Shaun Maunder <shaun@shmanic.com>
  * @package     Shmanic.Plugin
  * @subpackage  Authentication.JMapMyLDAP
- * 
+ *
  * @copyright	Copyright (C) 2011 Shaun Maunder. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -12,6 +12,10 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
+// Maintaining J! 1.6 to 3.0 support
+defined('JAUTHENTICATE_STATUS_SUCCESS') or define('JAUTHENTICATE_STATUS_SUCCESS', JAuthentication::STATUS_SUCCESS);
+defined('JAUTHENTICATE_STATUS_FAILURE') or define('JAUTHENTICATE_STATUS_FAILURE', JAuthentication::STATUS_FAILURE);
+
 /**
  * LDAP Authentication Plugin
  *
@@ -19,10 +23,10 @@ jimport('joomla.plugin.plugin');
  * @subpackage  Authentication.JMapMyLDAP
  * @since       1.0
  */
-class plgAuthenticationJMapMyLdap extends JPlugin 
+class plgAuthenticationJMapMyLdap extends JPlugin
 {
 	/**
-	 * This method should handle the Ldap authentication and report 
+	 * This method should handle the Ldap authentication and report
 	 * back to the subject. It will also save the ldapUser reference
 	 * in the response to be used later in the user plugin (this is
 	 * for efficiency).
@@ -30,25 +34,25 @@ class plgAuthenticationJMapMyLdap extends JPlugin
 	 * @param  array   $credentials  Array holding the user credentials
 	 * @param  array   $options      Array of extra options
 	 * @param  object  &$response    Authentication response object
-	 * 
+	 *
 	 * @return  boolean  Authentication result
 	 * @since   1.0
 	 */
-	public function onUserAuthenticate($credentials, $options, &$response) 
+	public function onUserAuthenticate($credentials, $options, &$response)
 	{
 		//load up the front end lanuages (used for errors)
 		$this->loadLanguage();
-		
+
 		jimport('shmanic.jldap2');
 		if(!class_exists('JLDAP2')) { //checks for the library
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
 			$response->error_message = $this->_reportError(JText::sprintf('PLG_JMAPMYLDAP_ERROR_MISSING_LIBRARY', 'JLDAP2'));
 			return false;
 		}
-		
+
 		// For JLog & JMapMyLDAP Auth Type Parameter
 		$response->type = 'LDAP';
-		
+
 		// LDAP does not like Blank passwords (tries to Anon Bind which is bad).
 		if(empty($credentials['password'])) {
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
@@ -59,29 +63,29 @@ class plgAuthenticationJMapMyLdap extends JPlugin
 		// load plugin params info
 		$ldap 			= new JLDAP2($this->params);
 		$userPlugin 	= array();
-		
-		
-		/* Lets start the ldap connection procedure - 
+
+
+		/* Lets start the ldap connection procedure -
 		 * this is slightly different from the user
 		 * plugin way as we want to manage the connection
 		 * here to authenticate the user with their
 		 * credentials - T-1000, advanced prototype
 		 */
 		$result = $ldap->connect();
-		if(JError::isError($result)) {
+		if($result instanceof Exception) {
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
 			$response->error_message = $this->_reportError($result);
 			return;
 		}
-		
+
 		/* We will now get the authenticated user's dn -
-		 * in this method we are also going to test the 
+		 * in this method we are also going to test the
 		 * dn against the password. Therefore, if any dn
 		 * is returned, it is a successfully authenticated
 		 * user.
 		 */
-		$dn = $ldap->getUserDN($credentials['username'], $credentials['password'], true); 
-		if(JError::isError($dn)) {
+		$dn = $ldap->getUserDN($credentials['username'], $credentials['password'], true);
+		if($dn instanceof Exception) {
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
 			$response->error_message = $this->_reportError($dn);
 			return;
@@ -93,14 +97,14 @@ class plgAuthenticationJMapMyLdap extends JPlugin
 			$ldap->close();
 			return;
 		}
-			
+
 		return $this->doUserDetails($ldap, $dn, $response);
-		
+
 	}
-	
+
 	/**
 	 * This method should handle the SSO Ldap authentication (though
-	 * only a username check and no password) and report 
+	 * only a username check and no password) and report
 	 * back to the subject. It will also save the ldapUser reference
 	 * in the response to be used later in the user plugin (this is
 	 * for efficiency).
@@ -108,50 +112,50 @@ class plgAuthenticationJMapMyLdap extends JPlugin
 	 * @param  string  $username   String holding the username to check
 	 * @param  array   $options    Array of extra options
 	 * @param  object  &$response  Authentication response object
-	 * 
+	 *
 	 * @return  boolean  Authentication result
 	 * @since   1.0
 	 */
-	public function onSSOAuthenticate($username, $options, &$response) 
+	public function onSSOAuthenticate($username, $options, &$response)
 	{
 		//load up the front end lanuages (used for errors)
 		$this->loadLanguage();
-		
+
 		jimport('shmanic.jldap2');
 		if(!class_exists('JLDAP2')) { //checks for the library
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
 			$response->error_message = $this->_reportError(JText::sprintf('PLG_JMAPMYLDAP_ERROR_MISSING_LIBRARY', 'JLDAP2'));
 			return false;
 		}
-		
+
 		// For JLog & JMapMyLDAP Auth Type Parameter
 		$response->type = 'LDAP';
 
 		// load plugin params info
 		$ldap 			= new JLDAP2($this->params);
 		$userPlugin 	= array();
-		
-		
-		/* Lets start the ldap connection procedure - 
+
+
+		/* Lets start the ldap connection procedure -
 		 * this is slightly different from the user
 		 * plugin way as we want to manage the connection
 		 * here to authenticate the user with their
 		 * credentials - T-1000, advanced prototype
 		 */
 		$result = $ldap->connect();
-		if(JError::isError($result)) {
+		if($result instanceof Exception) {
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
 			$response->error_message = $this->_reportError($result);
 			return;
 		}
-		
+
 		/* We will now get the authenticated user's dn -
-		 * in this method we are also going to test dn 
-		 * exists. Therefore, if any dn is returned, 
+		 * in this method we are also going to test dn
+		 * exists. Therefore, if any dn is returned,
 		 * we assume its the SSO user.
 		 */
-		$dn = $ldap->getUserDN($username, null, false); 
-		if(JError::isError($dn)) {
+		$dn = $ldap->getUserDN($username, null, false);
+		if($dn instanceof Exception) {
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
 			$response->error_message = $dn;
 			return false;
@@ -162,39 +166,39 @@ class plgAuthenticationJMapMyLdap extends JPlugin
 			$ldap->close();
 			return false;
 		}
-		
+
 		return $this->doUserDetails($ldap, $dn, $response);
-		
+
 	}
-	
+
 	/**
 	 * This method should get the LDAP user details.
-	 * 
-	 * Attempts to get the jmapmyldap user plugin parameters - 
+	 *
+	 * Attempts to get the jmapmyldap user plugin parameters -
 	 * if they don't exist then we assume there is no group
 	 * mapping for this installation. Therefore, this would
 	 * be treated as a authentication only.
-	 * 
+	 *
 	 * The name will be hard coded to the original jmapmyldap
-	 * user plugin. Developers wanting to use something else 
+	 * user plugin. Developers wanting to use something else
 	 * will have to create a new authentication plugin. This is
 	 * because most of the actions here are based on the fields
-	 * named in jmapmyldap - and its not that hard to create a 
+	 * named in jmapmyldap - and its not that hard to create a
 	 * new one due to the extensive use of the jldap2 library.
-	 * 
-	 * @param  jldap2  &$ldap      Connect JLDAP2 object 
+	 *
+	 * @param  jldap2  &$ldap      Connect JLDAP2 object
 	 * @param  string  $dn         String containing the user's dn
 	 * @param  object  &$response  Authentication response object
-	 * 
+	 *
 	 * @return  boolean  True on get detail success
 	 * @since   1.0
 	 */
 	public function doUserDetails(&$ldap, $dn, &$response)
 	{
-		
+
 		$ldapUser	 	= array();
-		$userPlugin		= array();		
-		
+		$userPlugin		= array();
+
 		jimport('shmanic.jmapmyldap');
 		if(class_exists('JMapMyLDAP')) { //checks for the library
 			$userParams 	= new JRegistry;
@@ -205,31 +209,31 @@ class plgAuthenticationJMapMyLdap extends JPlugin
 			/* we can use the parameters from the user plugin
 			 * to determine if we should get the user groups.
 			 */
-			
-			$userParams->loadJSON($userPlugin->params);
-			
+
+			$userParams->loadString($userPlugin->params);
+
 			$attributes = JMapMyLDAP::getAttributes($userParams); //get the attributes we need to process in regards to the group map
-			
+
 			$details = $ldap->getUserDetails($dn, $attributes);
-			if(JError::isError($details)) {
+			if($details instanceof Exception) {
 				$response->status = JAUTHENTICATE_STATUS_FAILURE;
 				$response->error_message = $this->_reportError(JText::_('PLG_JMAPMYLDAP_ERROR_ATTRIBUTES_FAIL'));
 				return false;
 			}
-			
+
 			//we must convert this to a jmapmyentry
 			if(isset($details['dn']) && $details['dn']!="") {
-				
+
 				$ldapUser = isset($details[$attributes['lookupKey']]) ?
 					$ldapUser = new JMapMyEntry($details['dn'], $details[$attributes['lookupKey']]) :
 					$ldapUser = new JMapMyEntry($details['dn'], array());
-				
+
 			} else {
 				$response->status = JAUTHENTICATE_STATUS_FAILURE;
 				$response->error_message = $this->_reportError(JText::_('PLG_JMAPMYLDAP_ERROR_USER_DETAIL_FAIL'));
 				return false;
 			}
-			
+
 			foreach($details as $key=>$val) { //loop round each attribute
 				if($key!="" && $key!="dn" && $key!=$attributes['lookupKey']) { //we want to override some though
 					//overrides for username, name and email so we can get them back later
@@ -255,55 +259,55 @@ class plgAuthenticationJMapMyLdap extends JPlugin
 			$details = $ldap->getUserDetails($dn);
 
 		}
-		
-		if(JError::isError($details)) {
+
+		if($details instanceof Exception) {
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
 			$response->error_message = $this->_reportError(JText::_('PLG_JMAPMYLDAP_ERROR_ATTRIBUTES_FAIL'));
 			return false;
 		}
-		
-		if(isset($details[$ldap->ldap_uid][0])) 
+
+		if(isset($details[$ldap->ldap_uid][0]))
 			$response->username 	= $details[$ldap->ldap_uid][0];
-			
-		if(isset($details[$ldap->ldap_fullname][0])) 
+
+		if(isset($details[$ldap->ldap_fullname][0]))
 			$response->fullname 	= $details[$ldap->ldap_fullname][0];
-			
-		if(isset($details[$ldap->ldap_email][0])) 
+
+		if(isset($details[$ldap->ldap_email][0]))
 			$response->email 		= $details[$ldap->ldap_email][0];
-			
+
 		$response->set('password_clear',''); //joomla password should always be blank
-			
+
 		$response->status			= JAUTHENTICATE_STATUS_SUCCESS;
 		$response->error_message 	= '';
-		
+
 		/* we should never require an ldap connection
 		 * again - hasta la vista, baby!
 		 */
 		$ldap->close();
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Reports an error to the screen if debug mode is enabled.
-	 * As the reponse caller in onUserAuthenticate() manages 
+	 * As the reponse caller in onUserAuthenticate() manages
 	 * the JLog, its excluded from this method.
 	 *
 	 * @param  mixed  $exception  The authentication error can either be
 	 *                              a string or a JException.
-	 * 
+	 *
 	 * @return  string  Exception comment string
 	 * @since   1.0
 	 */
-	protected function _reportError($exception = null) 
+	protected function _reportError($exception = null)
 	{
 		$comment = is_null($exception) ? JText::_('PLG_JMAPMYLDAP_ERROR_UNKNOWN') : $exception;
-			
+
 		if(JDEBUG) {
-			JError::raiseWarning('SOME_ERROR_CODE', $comment); 
+			JError::raiseWarning('SOME_ERROR_CODE', $comment);
 		}
 
 		return $comment;
 	}
-	
+
 }

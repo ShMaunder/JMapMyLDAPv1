@@ -15,5 +15,6 @@
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.lib_jmapmyldap.ini</language>
+		<language tag="cy-GB">language/cy-GB/cy-GB.lib_jmapmyldap.ini</language>
 	</languages>
 </extension>

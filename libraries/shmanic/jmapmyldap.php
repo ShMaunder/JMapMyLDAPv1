@@ -632,7 +632,7 @@ class JMapMyLDAP extends JObject
 		if($ldap instanceof JLDAP2) { //the new ldap library
 			$dn = $ldap->getUserDN($username, null, false);
 
-			if(JError::isError($dn)) return $dn;
+			if($dn instanceof Exception) return $dn;
 			if(!$dn) return new JException(JText::_('LIB_JMAPMYLDAP_ERROR_USER_DN_FAIL'));
 
 			$details = $ldap->getUserDetails($dn, $attributes);
@@ -713,7 +713,7 @@ class JMapMyLDAP extends JObject
 	{
 		$ldap			= null;
 
-		if(!$authParams || JError::isError($authParams)) {
+		if(!$authParams || $authParams instanceof Exception) {
 			return $authParams;
 		}
 
@@ -796,7 +796,7 @@ class JMapMyLDAP extends JObject
 			return new JException(JText::_('LIB_JMAPMYLDAP_ERROR_AUTH_PLUGIN_PARAMETER'));
 		}
 
-		$pluginParams->loadJSON($authPlugin->params);
+		$pluginParams->loadString($authPlugin->params);
 
 		return $pluginParams;
 	}
