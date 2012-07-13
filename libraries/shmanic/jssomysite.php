@@ -75,7 +75,7 @@ class JSSOAuthentication extends JObservable
 
 			// we need to check the ip rule & list before attempting anything...
 			$params = new JRegistry;
-			$params->loadJSON($plugin->params);
+			$params->loadString($plugin->params);
 
 			$myip = JRequest::getVar('REMOTE_ADDR', 0, 'server');
 
