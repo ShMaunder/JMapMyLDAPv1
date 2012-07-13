@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="1.6" method="upgrade">
+	<name>JMapMyLDAP Authentication Package</name>
+	<packagename>jldap2</packagename>
+	<version>1.0.6</version>
+	<authorEmail>shaun@shmanic.com</authorEmail>
+	<authorUrl>www.shmanic.com</authorUrl>
+	<author>Shaun Maunder</author>
+	<packagerurl>http://www.shmanic.com/tool/jmapmyldap/file.php?name=pkg_jldap2.zip</packagerurl>
+	<description>JMapMyLDAP Authentication Package consisting of a auth plugin and library. This package doesn't contain any group mapping functions.</description>
+	<files folder="packages">
+		<file type="library" id="jldap2">lib_jldap2.zip</file>
+		<file type="plugin" id="jmapmyldap" group="authentication">plg_authentication_jmapmyldap.zip</file>
+	</files>
+ 	<updateservers>
+		<server type="collection" priority="1" name="JMapMyLDAP Updates">http://update.shmanic.com/jmapmyldap/1x/update.xml</server>
+	</updateservers>
+</extension>

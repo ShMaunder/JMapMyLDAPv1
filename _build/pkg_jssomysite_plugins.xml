@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="1.6" method="upgrade">
+	<name>JSSOMySite Core and Plugins Package</name>
+	<packagename>jssomysite_plugins</packagename>
+	<version>1.0.6</version>
+	<authorEmail>shaun@shmanic.com</authorEmail>
+	<authorUrl>www.shmanic.com</authorUrl>
+	<author>Shaun Maunder</author>
+	<packagerurl>http://www.shmanic.com/tool/jmapmyldap/file.php?name=pkg_jssomysite_plugins.zip</packagerurl>
+	<description>JSSOMySite Core and Plugins consisting of a system plugin, two sso plugins and a library.</description>
+	<files folder="packages">
+		<file type="library" id="jssomysite">lib_jssomysite.zip</file>
+		<file type="plugin" id="http" group="sso">plg_sso_http.zip</file>
+		<file type="plugin" id="jssomysite" group="system">plg_system_jssomysite.zip</file>
+	</files>
+ 	<updateservers>
+		<server type="collection" priority="1" name="JMapMyLDAP Updates">http://update.shmanic.com/jmapmyldap/1x/update.xml</server>
+	</updateservers>
+</extension>

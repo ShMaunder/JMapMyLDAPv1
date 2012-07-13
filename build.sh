@@ -9,9 +9,9 @@ echo "Specify version folder"
 read VER
 
 LANG="en-GB"
-WORKDIR="$DIR/$VER/"
-TRUNK="$DIR/trunk"
-TEMPLATE="$DIR/template"
+WORKDIR="$DIR/_build/$VER/"
+TRUNK="$DIR"
+TEMPLATE="$DIR/_build"
 
 if [ ! -d $WORKDIR ]; then
 	mkdir "$WORKDIR"
