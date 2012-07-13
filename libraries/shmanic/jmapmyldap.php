@@ -912,7 +912,7 @@ class JMapMyLDAP extends JObject
 
 			$query->select('title')
 				->from('#__usergroups')
-				->where($query->qn('id') . '=' . $query->q((int) $groupId));
+				->where('id = ' . (int) $groupId);
 
 			$db->setQuery($query);
 
