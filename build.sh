@@ -44,6 +44,7 @@ if [ ! -d $WORKDIR ]; then
 	cd "$WORKDIR/$NAME"
 	mkdir "language"
 	mkdir "language/en-GB"
+	mkdir "language/cy-GB"
 
 	cp "$TEMPLATE/LICENSE.txt" "."
 	cp "$TEMPLATE/index.html" "."
@@ -52,6 +53,7 @@ if [ ! -d $WORKDIR ]; then
 	cp "$TRUNK/libraries/shmanic/jmapmyldap.xml" "."
 
 	cp "$TRUNK/language/en-GB/$LANG.$NAME.ini" "language/en-GB"
+	cp "$TRUNK/language/cy-GB/cy-GB.$NAME.ini" "language/cy-GB"
 
 	cd ..
 	zip -r "$WORKDIR/public/$NAME.zip" $NAME
