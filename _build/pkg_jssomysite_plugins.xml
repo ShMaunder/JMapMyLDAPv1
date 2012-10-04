@@ -2,7 +2,7 @@
 <extension type="package" version="1.6" method="upgrade">
 	<name>JSSOMySite Core and Plugins Package</name>
 	<packagename>jssomysite_plugins</packagename>
-	<version>1.0.6</version>
+	<version>1.0.7</version>
 	<authorEmail>shaun@shmanic.com</authorEmail>
 	<authorUrl>www.shmanic.com</authorUrl>
 	<author>Shaun Maunder</author>

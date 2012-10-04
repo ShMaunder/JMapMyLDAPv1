@@ -247,7 +247,7 @@ class plgAuthenticationJMapMyLdap extends JPlugin
 			/* store for the user plugin so we do not have
 			 * to requery everything with the ldap server.
 			 */
-			$response->set('jmapmyentry', $ldapUser);
+			$response->jmapmyentry = $ldapUser;
 
 		} else {
 
@@ -275,7 +275,7 @@ class plgAuthenticationJMapMyLdap extends JPlugin
 		if(isset($details[$ldap->ldap_email][0]))
 			$response->email 		= $details[$ldap->ldap_email][0];
 
-		$response->set('password_clear',''); //joomla password should always be blank
+		$response->password_clear = ''; //joomla password should always be blank
 
 		$response->status			= JAUTHENTICATE_STATUS_SUCCESS;
 		$response->error_message 	= '';
