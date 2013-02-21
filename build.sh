@@ -118,6 +118,26 @@ if [ ! -d $WORKDIR ]; then
 	zip -r "$WORKDIR/public/$NAME.zip" $NAME
 	tar -zcvf "$WORKDIR/public/$NAME.tar.gz" $NAME
 
+#Novell eDirectory SSO Plugin
+	NAME="plg_sso_edirldap"
+	mkdir "$WORKDIR/$NAME"
+	cd "$WORKDIR/$NAME"
+	mkdir "language"
+	mkdir "language/en-GB"
+
+	cp "$TEMPLATE/LICENSE.txt" "."
+	cp "$TEMPLATE/index.html" "."
+
+	cp "$TRUNK/plugins/sso/edirldap/edirldap.php" "."
+	cp "$TRUNK/plugins/sso/edirldap/edirldap.xml" "."
+
+	cp "$TRUNK/administrator/language/en-GB/$LANG.$NAME.ini" "language/en-GB"
+	cp "$TRUNK/administrator/language/en-GB/$LANG.$NAME.sys.ini" "language/en-GB"
+
+	cd ..
+	zip -r "$WORKDIR/public/$NAME.zip" $NAME
+	tar -zcvf "$WORKDIR/public/$NAME.tar.gz" $NAME
+
 #JSSOMySite System Plugin
 	NAME="plg_system_jssomysite"
 	mkdir "$WORKDIR/$NAME"
@@ -221,6 +241,7 @@ if [ ! -d $WORKDIR ]; then
 	cp "$TEMPLATE/$NAME.xml" "."
 
 	cp "$WORKDIR/public/plg_sso_http.zip" "packages"
+	cp "$WORKDIR/public/plg_sso_edirldap.zip" "packages"
 	cp "$WORKDIR/public/plg_system_jssomysite.zip" "packages"
 	cp "$WORKDIR/public/lib_jssomysite.zip" "packages"
 
