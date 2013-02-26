@@ -142,8 +142,20 @@ class plgUserJMapMyLDAP extends JPlugin
 		$errorlog = array('status'=>'JMapMyLDAP Fail: ', 'comment'=>$comment);
 
 		jimport('joomla.error.log');
-		$log = JLog::getInstance();
-		$log->addEntry($errorlog);
+
+                // Due to Joomla removing JLog methods in later versions...
+                if (method_exists(JLog, 'getInstance'))
+                {
+                        // Legacy method for writing to log file
+                        $log = JLog::getInstance();
+                        $log->addEntry($errorlog);
+                }
+                else
+                {
+                        // Newer method
+                        JLog::addLogger(array(), JLog::ERROR);
+                        JLog::add((string) $errorlog['comment'], JLog::ERROR, $errorlog['status']);
+                }
 
 		if(JDEBUG) {
 			return JERROR::raiseWarning('SOME_ERROR_CODE', $comment);
