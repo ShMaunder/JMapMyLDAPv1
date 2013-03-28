@@ -2,7 +2,7 @@
 <extension type="package" version="1.6" method="upgrade">
 	<name>JMapMyLDAP Authentication Package</name>
 	<packagename>jldap2</packagename>
-	<version>1.0.7</version>
+	<version>1.0.8</version>
 	<authorEmail>shaun@shmanic.com</authorEmail>
 	<authorUrl>www.shmanic.com</authorUrl>
 	<author>Shaun Maunder</author>

@@ -2,7 +2,7 @@
 <extension type="package" version="1.6" method="upgrade">
 	<name>JSSOMySite Core and Plugins Package</name>
 	<packagename>jssomysite_plugins</packagename>
-	<version>1.0.7</version>
+	<version>1.0.8</version>
 	<authorEmail>shaun@shmanic.com</authorEmail>
 	<authorUrl>www.shmanic.com</authorUrl>
 	<author>Shaun Maunder</author>
@@ -11,6 +11,7 @@
 	<files folder="packages">
 		<file type="library" id="jssomysite">lib_jssomysite.zip</file>
 		<file type="plugin" id="http" group="sso">plg_sso_http.zip</file>
+		<file type="plugin" id="edirldap" group="sso">plg_sso_edirldap.zip</file>
 		<file type="plugin" id="jssomysite" group="system">plg_system_jssomysite.zip</file>
 	</files>
  	<updateservers>
